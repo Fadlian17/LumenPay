@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Midtrans\Config;
+// Midtrans API Resources
+use App\Http\Controllers\Midtrans\Transaction;
+use App\Http\Controllers\Midtrans\Snap;
+
+
 use App\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -41,32 +47,77 @@ class PaymentController extends Controller
 
     public function create(Request $request)
     {
-        $this->validate($request, [
-            'data.attributes.order_id' => 'required',
-            'data.attributes.transaction_id' => 'required',
-            'data.attributes.payment_type' => 'required',
-            'data.attributes.gross_amount' => 'required',
-            'data.attributes.transaction_time' => 'required',
-            'data.attributes.transaction_status' => 'required'
-        ]);
+        // $this->validate($request, [
+        //     'data.attributes.order_id' => 'required',
+        //     'data.attributes.transaction_id' => 'required',
+        //     'data.attributes.payment_type' => 'required',
+        //     'data.attributes.gross_amount' => 'required',
+        //     'data.attributes.transaction_time' => 'required',
+        //     'data.attributes.transaction_status' => 'required'
+        // ]);
 
-        $payments = new Payment();
-        $payments->order_id = $request->input('data.attributes.order_id');
-        $payments->transaction_id = $request->input('data.attributes.transaction_id');
-        $payments->payment_type = $request->input('data.attributes.payment_type');
-        $payments->gross_amount = $request->input('data.attributes.gross_amount');
-        $payments->transaction_time = $request->input('data.attributes.transaction_time');
-        $payments->transaction_status = $request->input('data.attributes.transaction_status');
-        $payments->save();
+        // $payments = new Payment();
+        // $payments->order_id = $request->input('data.attributes.order_id');
+        // $payments->transaction_id = $request->input('data.attributes.transaction_id');
+        // $payments->payment_type = $request->input('data.attributes.payment_type');
+        // $payments->gross_amount = $request->input('data.attributes.gross_amount');
+        // $payments->transaction_time = $request->input('data.attributes.transaction_time');
+        // $payments->transaction_status = $request->input('data.attributes.transaction_status');
+        // $payments->save();
 
-        return response()->json([
-            "message" => "Success Add Data",
-            "status" => true,
-            "data" => [
-                "attributes" => $payments
-            ]
-        ])
-            ->header('author', 'fadlian');
+        // return response()->json([
+        //     "message" => "Success Add Data",
+        //     "status" => true,
+        //     "data" => [
+        //         "attributes" => $payments
+        //     ]
+        // ])
+        //     ->header('author', 'fadlian');
+
+        Config::$serverKey = 'SB-Mid-server-FDFAAqGSS2NX3qaX9hr0HB5j';
+        if (!isset(Config::$serverKey)) {
+            return "Please set your payment server key";
+        }
+
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        $item_list[] = [
+            'id' => "111",
+            'price' => 20000,
+            'quantity' => 4,
+            'name' => "Majohn"
+        ];
+
+        $transaction_details = array(
+            'order_id' => rand(),
+            'gross_amount' => 20000, // no decimal allowed for creditcard
+        );
+
+        $customer_details = array(
+            'first_name'    => "Andri",
+            'last_name'     => "Litani",
+            'email'         => "andri@litani.com",
+            'phone'         => "081122334455",
+        );
+
+        $enable_payments = array('bni', 'bca');
+
+        $transaction = array(
+            'enabled_payments' => $enable_payments,
+            'transaction_details' => $transaction_details,
+            'customer_details' => $customer_details,
+            'item_details' => $item_list,
+        );
+
+        try {
+            $snapToken = Snap::createTransaction($transaction);
+            return response()->json(['code' => 1, 'message' => 'success', 'result' => $snapToken]);
+            // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
+        } catch (\Exception $e) {
+            dd($e);
+            return ['code' => 0, 'message' => 'failed'];
+        }
     }
 
     // public function show($id)
