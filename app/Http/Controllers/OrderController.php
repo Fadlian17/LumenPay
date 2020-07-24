@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -20,29 +21,32 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Order::with(array('customer' => function ($query) {
-            $query->select();
-        }))->get();
+        $orders = Order::all();
         if (!$orders) {
             return response()->json([
                 'message' => 'Data Not Found'
             ]);
         }
 
-        return response()->json(['message' => 'Success View', 'attributes' => $orders])
+        return response()->json([
+            "message" => "Success Retrived Data",
+            "status" => true,
+            "data" => [
+                "attributes" => $orders
+            ]
+        ])
             ->header('author', 'fadlian');
     }
 
     public function create(Request $request)
     {
         $this->validate($request, [
-            'user_id' => 'required',
-            'status' => 'required',
+            'data.attributes.user_id' => 'required'
         ]);
 
         $orders = new Order();
-        $orders->user_id = $request->input('user_id');
-        $orders->status = $request->input('status');
+        $orders->user_id = $request->input('data.attributes.user_id');
+        $orders->status = "created";
         $orders->save();
 
         return response()->json(['message' => 'Success Add orders', 'attributes' => $orders])
@@ -67,14 +71,13 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'user_id' => 'required',
-            'status' => 'required',
+            'data.attributes.user_id' => 'required',
         ]);
 
         $orders = Order::find($id);
         if ($orders) {
-            $orders->user_id = $request->input('user_id');
-            $orders->status = $request->input('status');
+            $orders->user_id = $request->input('data.attributes.user_id');
+            $orders->status = 'created';
             $orders->save();
 
             return response()->json(['message' => 'Success Update orders', 'attributes' => $orders]);

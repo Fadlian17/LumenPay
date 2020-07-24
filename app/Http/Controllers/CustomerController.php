@@ -20,33 +20,35 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $customers = Customer::with(array('order' => function ($query) {
-            $query->select();
-        }))->get();
+        $customers = Customer::all();
         if (!$customers) {
             return response()->json([
                 'message' => 'Data Not Found'
             ]);
         }
 
-        return response()->json(['message' => 'Success View', 'attributes' => $customers])
+        return response()->json([
+            "message" => "Success retrieve data",
+            "status" => true,
+            "data" => $customers
+        ])
             ->header('author', 'fadlian');
     }
 
     public function create(Request $request)
     {
         $this->validate($request, [
-            'full_name' => 'required',
-            'username' => 'required',
-            'email' => 'required',
-            'phone_number' => 'required'
+            'data.attributes.full_name' => 'required',
+            'data.attributes.username' => 'required',
+            'data.attributes.email' => 'required',
+            'data.attributes.phone_number' => 'required'
         ]);
 
         $customers = new Customer();
-        $customers->full_name = $request->input('full_name');
-        $customers->username = $request->input('username');
-        $customers->email = $request->input('email');
-        $customers->phone_number = $request->input('phone_number');
+        $customers->full_name = $request->input('data.attributes.full_name');
+        $customers->username = $request->input('data.attributes.username');
+        $customers->email = $request->input('data.attributes.email');
+        $customers->phone_number = $request->input('data.attributes.phone_number');
         $customers->save();
 
         return response()->json(['message' => 'Success Add Customers', 'attributes' => $customers])
@@ -71,18 +73,18 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'full_name' => 'required',
-            'username' => 'required',
-            'email' => 'required',
-            'phone_number' => 'required'
+            'data.attributes.full_name' => 'required',
+            'data.attributes.username' => 'required',
+            'data.attributes.email' => 'required',
+            'data.attributes.phone_number' => 'required'
         ]);
 
         $customers = Customer::find($id);
         if ($customers) {
-            $customers->full_name = $request->input('full_name');
-            $customers->username = $request->input('username');
-            $customers->email = $request->input('email');
-            $customers->phone_number = $request->input('phone_number');
+            $customers->full_name = $request->input('data.attributes.full_name');
+            $customers->username = $request->input('data.attributes.username');
+            $customers->email = $request->input('data.attributes.email');
+            $customers->phone_number = $request->input('data.attributes.phone_number');
             $customers->save();
 
             return response()->json(['message' => 'Success Update Customers', 'attributes' => $customers]);

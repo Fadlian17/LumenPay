@@ -19,6 +19,15 @@ class Order extends Model
 
     public function customer()
     {
-        return $this->hashMany("App\Customer");
+        return $this->belongsTo("App\Customer");
+    }
+
+    public function order()
+    {
+        return $this->hashMany("App\Order");
+    }
+    public function payment()
+    {
+        return $this->hashMany("App\Payment");
     }
 }

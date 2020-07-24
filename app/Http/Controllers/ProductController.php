@@ -29,20 +29,26 @@ class ProductController extends Controller
             ]);
         }
 
-        return response()->json(['message' => 'Success View', 'attributes' => $products])
+        return response()->json([
+            "message" => "Success Retrived Data",
+            "status" => true,
+            "data" => [
+                "attributes" => $products
+            ]
+        ])
             ->header('author', 'fadlian');
     }
 
     public function create(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'price' => 'required',
+            'data.attributes.name' => 'required',
+            'data.attributes.price' => 'required',
         ]);
 
         $products = new Product();
-        $products->name = $request->input('name');
-        $products->price = $request->input('price');
+        $products->name = $request->input('data.attributes.name');
+        $products->price = $request->input('data.attributes.price');
         $products->save();
 
         return response()->json(['message' => 'Success Add products', 'attributes' => $products])
@@ -67,14 +73,14 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'price' => 'required',
+            'data.attributes.name' => 'required',
+            'data.attributes.price' => 'required',
         ]);
 
         $products = Product::find($id);
         if ($products) {
-            $products->name = $request->input('name');
-            $products->price = $request->input('price');
+            $products->name = $request->input('data.attributes.name');
+            $products->price = $request->input('data.attributes.price');
             $products->save();
 
             return response()->json(['message' => 'Success Update products', 'attributes' => $products]);
