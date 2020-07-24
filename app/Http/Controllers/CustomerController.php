@@ -51,7 +51,11 @@ class CustomerController extends Controller
         $customers->phone_number = $request->input('data.attributes.phone_number');
         $customers->save();
 
-        return response()->json(['message' => 'Success Add Customers', 'attributes' => $customers])
+        return response()->json([
+            "message" => "Success Add Customer",
+            "status" => true,
+            "data" => $customers
+        ])
             ->header('author', 'fadlian');
     }
 
@@ -87,7 +91,11 @@ class CustomerController extends Controller
             $customers->phone_number = $request->input('data.attributes.phone_number');
             $customers->save();
 
-            return response()->json(['message' => 'Success Update Customers', 'attributes' => $customers]);
+            return response()->json([
+                "message" => "Success Update Customer",
+                "status" => true,
+                "data" => $customers
+            ]);
         }
     }
 
@@ -98,10 +106,9 @@ class CustomerController extends Controller
             $customers->delete();
 
             return response()->json([
-                'message' => 'Success Deleted',
-                'customers' => [
-                    'attributes' => $customers
-                ]
+                "message" => "Success Add Customer",
+                "status" => true,
+                "data" => $customers
             ]);
         } else {
             return response()->json([

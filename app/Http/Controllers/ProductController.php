@@ -51,7 +51,13 @@ class ProductController extends Controller
         $products->price = $request->input('data.attributes.price');
         $products->save();
 
-        return response()->json(['message' => 'Success Add products', 'attributes' => $products])
+        return response()->json([
+            "message" => "Success Add Data",
+            "status" => true,
+            "data" => [
+                "attributes" => $products
+            ]
+        ])
             ->header('author', 'fadlian');
     }
 
@@ -83,7 +89,13 @@ class ProductController extends Controller
             $products->price = $request->input('data.attributes.price');
             $products->save();
 
-            return response()->json(['message' => 'Success Update products', 'attributes' => $products]);
+            return response()->json([
+                "message" => "Success Update Data",
+                "status" => true,
+                "data" => [
+                    "attributes" => $products
+                ]
+            ]);
         }
     }
 
@@ -94,9 +106,10 @@ class ProductController extends Controller
             $products->delete();
 
             return response()->json([
-                'message' => 'Success Deleted',
-                'products' => [
-                    'attributes' => $products
+                "message" => "Success Add Data",
+                "status" => true,
+                "data" => [
+                    "attributes" => $products
                 ]
             ]);
         } else {

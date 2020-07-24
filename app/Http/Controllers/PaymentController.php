@@ -59,7 +59,13 @@ class PaymentController extends Controller
         $payments->transaction_status = $request->input('data.attributes.transaction_status');
         $payments->save();
 
-        return response()->json(['message' => 'Success Add payme$payments', 'attributes' => $payments])
+        return response()->json([
+            "message" => "Success Add Data",
+            "status" => true,
+            "data" => [
+                "attributes" => $payments
+            ]
+        ])
             ->header('author', 'fadlian');
     }
 
@@ -99,7 +105,13 @@ class PaymentController extends Controller
             $payments->transaction_status = $request->input('data.attributes.transaction_status');
             $payments->save();
 
-            return response()->json(['message' => 'Success Update payme$payments', 'attributes' => $payments]);
+            return response()->json([
+                "message" => "Success Update Data",
+                "status" => true,
+                "data" => [
+                    "attributes" => $payments
+                ]
+            ]);
         }
     }
 
@@ -110,9 +122,10 @@ class PaymentController extends Controller
             $payments->delete();
 
             return response()->json([
-                'message' => 'Success Deleted',
-                'payme$payments' => [
-                    'attributes' => $payments
+                "message" => "Success Delete Data",
+                "status" => true,
+                "data" => [
+                    "attributes" => $payments
                 ]
             ]);
         } else {

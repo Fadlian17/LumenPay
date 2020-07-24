@@ -49,7 +49,13 @@ class OrderController extends Controller
         $orders->status = "created";
         $orders->save();
 
-        return response()->json(['message' => 'Success Add orders', 'attributes' => $orders])
+        return response()->json([
+            "message" => "Success Add Data",
+            "status" => true,
+            "data" => [
+                "attributes" => $orders
+            ]
+        ])
             ->header('author', 'fadlian');
     }
 
@@ -80,7 +86,13 @@ class OrderController extends Controller
             $orders->status = 'created';
             $orders->save();
 
-            return response()->json(['message' => 'Success Update orders', 'attributes' => $orders]);
+            return response()->json([
+                "message" => "Success Update Data",
+                "status" => true,
+                "data" => [
+                    "attributes" => $orders
+                ]
+            ]);
         }
     }
 
@@ -91,9 +103,10 @@ class OrderController extends Controller
             $orders->delete();
 
             return response()->json([
-                'message' => 'Success Deleted',
-                'orders' => [
-                    'attributes' => $orders
+                "message" => "Success Delete Data",
+                "status" => true,
+                "data" => [
+                    "attributes" => $orders
                 ]
             ]);
         } else {

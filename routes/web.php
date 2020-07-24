@@ -52,10 +52,10 @@ $router->group(['prefix' => 'rest/payment'], function () use ($router) {
 
 
     //Comment
-    $router->get('/payment', 'PaymentController@index');
-    $router->post('/payment', 'PaymentController@create');
-    $router->get('/payment/{id}', 'PaymentController@show');
-    $router->patch('/payment/{id}', 'PaymentController@update');
-    $router->delete('/payment/{id}', 'PaymentController@destroy');
+    $router->get('/payments', 'PaymentController@index');
+    $router->post('/payments', 'PaymentController@create');
+    $router->get('/payments/{id}', 'PaymentController@show');
+    $router->patch('/payments/{id}', 'PaymentController@update');
+    $router->delete('/payments/{id}', 'PaymentController@destroy');
 });
 // });

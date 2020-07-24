@@ -53,7 +53,13 @@ class OrderItemController extends Controller
         $order_items->quantity = $request->input('data.attributes.quantity');
         $order_items->save();
 
-        return response()->json(['message' => 'Success Add order_items', 'attributes' => $order_items])
+        return response()->json([
+            "message" => "Success Add Data Order Item",
+            "status" => true,
+            "data" => [
+                "attributes" => $order_items
+            ]
+        ])
             ->header('author', 'fadlian');
     }
 
@@ -87,7 +93,13 @@ class OrderItemController extends Controller
             $order_items->quantity = $request->input('data.attributes.quantity');
             $order_items->save();
 
-            return response()->json(['message' => 'Success Update order_items', 'attributes' => $order_items]);
+            return response()->json([
+                "message" => "Success Update Data Order Item",
+                "status" => true,
+                "data" => [
+                    "attributes" => $order_items
+                ]
+            ]);
         }
     }
 
@@ -98,9 +110,10 @@ class OrderItemController extends Controller
             $order_items->delete();
 
             return response()->json([
-                'message' => 'Success Deleted',
-                'order_items' => [
-                    'attributes' => $order_items
+                "message" => "Success Delete Data Order Item",
+                "status" => true,
+                "data" => [
+                    "attributes" => $order_items
                 ]
             ]);
         } else {
