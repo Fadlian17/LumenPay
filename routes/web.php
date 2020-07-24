@@ -57,5 +57,6 @@ $router->group(['prefix' => 'rest/payment'], function () use ($router) {
     $router->get('/payments/{id}', 'PaymentController@show');
     $router->patch('/payments/{id}', 'PaymentController@update');
     $router->delete('/payments/{id}', 'PaymentController@destroy');
+    $router->post('/payments/midtrans/push', 'PaymentController@midtransPush');
 });
 // });
