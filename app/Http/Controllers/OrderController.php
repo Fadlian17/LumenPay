@@ -49,6 +49,16 @@ class OrderController extends Controller
         $orders->status = "created";
         $orders->save();
 
+        $order_detail = $request->input('data.attributes.order_detail');
+
+        for ($i = 0; $i < count($order_detail); $i++) {
+            $order_item = new OrderItem();
+            $order_item->order_id = $orders->id;
+            $order_item->product_id = $request->input('data.attributes.order_detail.' . $i . '.product_id');
+            $order_item->quantity = $request->input('data.attributes.order_detail.' . $i . '.quantity');
+            $orders->orderitem()->save($order_item);
+        }
+
         return response()->json([
             "message" => "Success Add Data",
             "status" => true,

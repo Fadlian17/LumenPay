@@ -22,12 +22,12 @@ class Order extends Model
         return $this->belongsTo("App\Customer");
     }
 
-    public function order()
+    public function orderitem()
     {
-        return $this->hashMany("App\Order");
+        return $this->hasMany("App\OrderItem");
     }
     public function payment()
     {
-        return $this->hashMany("App\Payment");
+        return $this->hasMany("App\Payment");
     }
 }
