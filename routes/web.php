@@ -43,7 +43,7 @@ $router->group(['prefix' => 'rest/payment'], function () use ($router) {
     $router->delete('/product/{id}', 'ProductController@destroy');
 
 
-    //Post
+    //Orders
     $router->get('/orderitem', 'OrderItemController@index');
     $router->post('/orderitem', 'OrderItemController@create');
     $router->get('/orderitem/{id}', 'OrderItemController@show');
@@ -51,7 +51,7 @@ $router->group(['prefix' => 'rest/payment'], function () use ($router) {
     $router->delete('/orderitem/{id}', 'OrderItemController@destroy');
 
 
-    //Comment
+    //Payments
     $router->get('/payments', 'PaymentController@index');
     $router->post('/payments', 'PaymentController@create');
     $router->get('/payments/{id}', 'PaymentController@show');

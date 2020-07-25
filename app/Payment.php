@@ -12,13 +12,7 @@ class Payment extends Model
 {
     protected $table = 'payments';
 
-    protected $fillable = [
-        'order_id', 'transaction_id', 'payment_type', 'grass_amount',
-        'transaction_time', 'transaction_status',
-    ];
-
-
-    public function Order()
+    public function order()
     {
         return $this->belongsTo("App\Order");
     }
